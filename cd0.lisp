@@ -44,27 +44,6 @@
 	(with-standard-io-syntax
 	  (setf *db* (read in)))))
 
-;; (defun select-by-artist (artist)
-;;   (remove-if-not
-;;    #'(lambda (cd) (equal (getf cd :artist) artist))
-;;    *db*))
-
-;; (defun artist-selector (artist)
-;;   #'(lambda (cd) (equal (getf cd :artist) artist)))
-
-;; (defun select (selector-fn)
-;;   (remove-if-not selector-fn *db*))
-
-;; keyword, defaults, (defun foo (&key a (b 20) (c 30 c-p)) (list a b c c-p))
-
-;; (defun where (&key title artist rating (ripped nil ripped-p))
-;;   #'(lambda (cd)
-;; 	  (and
-;; 	   (if title (equal (getf cd :title) title) t)
-;; 	   (if artist (equal (getf cd :artist) artist) t)
-;; 	   (if rating (equal (getf cd :rating) rating) t)
-;; 	   (if ripped-p (equal (getf cd :ripped) ripped) t))))
-
 (defun delete-rows (selector-fn)
   (setf *db* (remove-if selector-fn *db*)))
 
@@ -93,11 +72,16 @@
 (defmacro where (&rest clauses)
   `#'(lambda (cd) (and ,@ (make-comparisons-list clauses))))
 
+(defun select (selector-fn)
+  (remove-if-not selector-fn *db*))
+
 ;; (add-record (make-cd "Roses" "Kathy Mattea" 7 t))
 ;; (add-record (make-cd "Fly" "Dixie Chicks" 8 t))
 ;; (add-record (make-cd "Home" "Dixie Chicks" 9 t))
 
 
+(defmacro backwards (expr)
+  (reverse expr))
 
 
 
