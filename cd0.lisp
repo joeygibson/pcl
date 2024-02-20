@@ -22,7 +22,9 @@
   (make-cd
    (prompt-read "Title")
    (prompt-read "Artist")
-   (or (parse-integer (prompt-read "Rating") :junk-allowed t) 0)
+   (or
+	(parse-integer (prompt-read "Rating") :junk-allowed t)
+	0)
    (y-or-n-p "Ripped [y/n]")))
 
 (defun add-cds ()
@@ -62,6 +64,9 @@
 ;; 	   (if artist (equal (getf cd :artist) artist) t)
 ;; 	   (if rating (equal (getf cd :rating) rating) t)
 ;; 	   (if ripped-p (equal (getf cd :ripped) ripped) t))))
+
+(defun delete-rows (selector-fn)
+  (setf *db* (remove-if selector-fn *db*)))
 
 (defun update (selector-fn &key title artist rating (ripped nil ripped-p))
   (setf *db*
