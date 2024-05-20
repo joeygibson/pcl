@@ -1,5 +1,7 @@
+(defvar *test-name* nil)
+
 (defun report-result (result form)
-  (format t "~:[FAIL~;pass~] ... ~a~%" result form)
+  (format t "~:[FAIL~;pass~] ... ~a: ~a~%" result *test-name* form)
   result)
 
 (defmacro check-orig (form)
@@ -19,7 +21,39 @@
   `(combine-results
 	 ,@(loop for f in forms collect `(report-result ,f ',f))))
 
-(defun test-+ ()
+;; (defun test-+ ()
+;;   (let ((*test-name* 'test-+))
+;; 	(check
+;; 	  (= (+ 2 3) 5)
+;; 	  (= (+ 3 1) 4))))
+
+;; (defun test-* ()
+;;   (let ((*test-name* 'test-*))
+;; 	(check
+;; 	  (= (* 3 2) 6)
+;; 	  (= (* 3 3) 7))))
+
+(defmacro deftest (name parameters &body body)
+  `(defun ,name ,parameters
+	 (let ((*test-name* (append *test-name* (list ',name))))
+	   ,@body)))
+
+(deftest test-+ ()
   (check
 	(= (+ 2 3) 5)
-	(= (+ 3 1) 4)))
+	(= (+ 3 2) 4)))
+
+(deftest test-* ()
+  (= (* 3 2) 6)
+  (= (* 3 3) 9))
+
+(deftest test-/ ()
+  (check
+	(= (/ 4 2) 2)
+	(= (/ 5 2) 99)))
+
+(deftest test-arithmetic ()
+  (combine-results
+	(test-+)
+	(test-*)
+	(test-/)))
