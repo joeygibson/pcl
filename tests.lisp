@@ -57,3 +57,6 @@
 	(test-+)
 	(test-*)
 	(test-/)))
+
+(deftest test-math ()
+  (test-arithmetic))
