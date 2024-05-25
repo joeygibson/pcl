@@ -136,6 +136,40 @@
 
 ;; subsequences
 
+(subseq "foobarbaz" 3) ; "barbaz"
+(subseq "foobarbaz" 3 6) ; "bar"
+
+(search "bar" "foobarbaz") ; 3
+
+(mismatch "foobarbaz" "foom") ; 3
+
+;; sequence predicates
+
+(every #'evenp #(1 2 3 4 5)) ; nil
+(some #'evenp #(1 2 3 4 5)) ; T
+(notany #'evenp #(1 2 3 4 5)) ; nil
+(notevery #'evenp #(1 2 3 4 5)) ; T
+
+;; sequence mapping functions
+
+(map 'vector
+	 #'*
+	 #(1 2 3 4 5)
+	 #(10 9 8 7 6)) ; #(10 18 24 28 30)
+
+(map 'vector
+	 #'1+
+	 #(1 2 3 4 5)) ; #(2 3 4 5 6)
+
+(defparameter *bar* #(1 2 3 4 5))
+
+(map-into *bar*
+		  #'+
+		  *bar*
+		  #(1 2 3 4 5)) ; #(2 4 6 8 10)
+
+
+
 
 
 
