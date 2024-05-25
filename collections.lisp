@@ -168,8 +168,51 @@
 		  *bar*
 		  #(1 2 3 4 5)) ; #(2 4 6 8 10)
 
+(reduce #'+
+		#(1 2 3 4 5)) ; 15
 
+;; hash tables
 
+(make-hash-table) ; creates a hash, not suitable for strings, since it uses EQL
+(make-hash-table :test #'equal) ; hash suitable for strings
+
+(defparameter *h* (make-hash-table))
+(gethash 'foo *h*) ; nil, nil
+(setf (gethash 'foo *h*) 'quux)
+(gethash 'foo *h*) ; quux, T
+
+;; use multiple-value-bind to access both values
+(defun show-value (key hash-table)
+  (multiple-value-bind (value present) (gethash key hash-table)
+	(if present
+		(format nil "Value ~a actually present" value)
+		(format nil "Value ~a because key not found" value))))
+
+(setf (gethash 'bar *h*) nil)
+
+(show-value 'foo *h*) ; Value quux actually present
+(show-value 'bar *h*) ; Value nil actually present
+(show-value 'baz *h*) ; Value nil because key not found
+
+;; remove a key
+(remhash 'bar *h*) ; T
+
+;; clear a hash table
+(clrhash *h*)
+
+;; hash table iteration
+
+(maphash #'(lambda (k v)
+			 (format t "~a => ~a~%" k v))
+		 *h*)
+
+;; remove all keys whose value is < 10
+;; (maphash #'(lambda (k v)
+;; 			 (when (< v 10)
+;; 			   (remhash k *h*))) *h*)
+
+(loop for k being the hash-keys in *h* using (hash-value v)
+	  do (format t "~a => ~a~%" k v))
 
 
 
