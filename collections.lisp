@@ -82,4 +82,25 @@
 (find 'a #((a 10) (b 20) (a 30) (b 40)) :key #'first :from-end t) ; (a 30)
 
 
+;; Higher order function versions
+(count-if #'evenp #(1 2 3 4 5)) ; 2
+(count-if-not #'evenp #(1 2 3 4 5)) ; 3
+(position-if #'digit-char-p "abcd0001") ; 4
+
+(remove-if-not #'(lambda (x) (char= (elt x 0) #\f))
+			   #("foo" "bar" "baz" "foom")) ; #("foo" "foom")
+
+(count-if #'evenp #((1 a) (2 b) (3 c) (4 d) (5 e))
+		  :key #'first) ; 2
+
+(count-if-not #'evenp #((1 a) (2 b) (3 c) (4 d) (5 e))
+			  :key #'first) ; 3
+
+(remove-if-not #'alpha-char-p #("foo" "bar" "1baz")
+			   :key #'(lambda (x) (elt x 0))) ; #("foo" "bar")
+
+(remove-duplicates #(1 2 1 2 3 1 2 3 4)) ; #(1 2 3 4)
+
+
+
 
