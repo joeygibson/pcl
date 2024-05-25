@@ -101,6 +101,41 @@
 
 (remove-duplicates #(1 2 1 2 3 1 2 3 4)) ; #(1 2 3 4)
 
+(copy-seq #(1 2 3)) ; #(1 2 3)
+(reverse #(1 2 3)) ; #(3 2 1)
+
+(concatenate 'vector #(1 2 3) '(4 5 6)) ; #(1 2 3 4 5 6)
+(concatenate 'list #(1 2 3) '(4 5 6)) ; '(1 2 3 4 5 6)
+(concatenate 'string "abc" '(#\d #\e #\f)) ; "abcdef"
+
+(defparameter *lst* '("foo" "bar" "baz" "quux"))
+
+(setf *lst* (sort *lst* #'string<))
+(setf *lst* (stable-sort *lst* #'string<))
+
+(sort #((a 99) (b 23) (c 1))
+	  #'<
+	  :key #'(lambda (x) (elt x 1))) ; ((c 1) (b 23) (a 99))
+
+;; merge combines two sequences in order
+(merge 'vector
+	   #(1 3 5)
+	   #(2 4 6)
+	   #'<) ; #(1 2 3 4 5 6)
+
+(merge 'list
+	   #(1 3 5)
+	   #(2 4 6)
+	   #'<) ; '(1 2 3 4 5 6)
+
+(merge 'vector
+	   #((a 99) (b 23) (c 1))
+	   #((z 104) (p 55) (q 2))
+	   #'<
+	   :key #'cadr)
+
+;; subsequences
+
 
 
 
