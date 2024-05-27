@@ -66,6 +66,28 @@
 
 ;; Interacting with the File System
 
+(probe-file "/tmp/sjsjsjsj") ; nil
+(probe-file "funcs.lisp") ; #P".../funcs.lisp"
+
+(directory ".") ; #P".../pcl"
+
+; delete-file, rename-file
+; ensure-directories-exist - creates path structure
+
+;; (with-open-file (out (ensure-directories-exist "name") :direction :output)
+;;   ...)
+
+(file-write-date "funcs.lisp") ; file mod date
+(file-author "funcs.lisp") ; jgibson
+;; file-length takes a stream, gives length
+
+;; for most accurate count, use binary stream
+;; (with-open-file (in filename :element-type '(unsigned-byte 8))
+;;   (file-length in))
+
+;; file-position gives read/write position in stream
+
+;;; Other Kinds of I/O
 
 
 
