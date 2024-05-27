@@ -31,7 +31,7 @@
 
 ;; print, prints an sexp, preceded by newline, followed by space
 ;; prin1, just prints the sexp
-;; pprint, tried to print sexp in pleasing way
+;; pprint, tries to print sexp in pleasing way
 ;; princ, prints sexp in human-readable way
 ;; write-byte to write to binary file
 
@@ -88,6 +88,28 @@
 ;; file-position gives read/write position in stream
 
 ;;; Other Kinds of I/O
+
+(let ((s (make-string-input-stream "1.23")))
+  (unwind-protect (read s)
+	(close s)))
+
+(let ((s (make-string-output-stream)))
+  (fresh-line)
+  (format s "One~%")
+  (format s "Two~%")
+  (format t "~a~%" (get-output-stream-string s)))
+
+;;; better options
+(with-input-from-string (s "1.23")
+  (print (read s)))
+
+(let ((s (with-output-to-string (out)
+		   (format out "One~%")
+		   (format out "Two~%"))))
+  (print s))
+
+
+
 
 
 
