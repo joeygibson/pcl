@@ -101,7 +101,15 @@
 (print (balance *account*))
 (print (balance *account2*))
 
+;; Slots and inheritance
 
+(defclass foo ()
+  ((a :initarg :a :initform "A" :accessor a)
+   (b :initarg :b :initform "B" :accessor b)))
+
+(defclass bar (foo)
+  ((a :initform (error "Must supply a value for a"))
+   (b :initarg :the-b :accessor the-b :allocation :class)))
 
 
 
