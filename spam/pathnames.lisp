@@ -1,6 +1,3 @@
-(defpackage :com.joeygibson.pathnames
-  (:use :common-lisp))
-
 (in-package :com.joeygibson.pathnames)
 
 (defun component-present-p (value)
